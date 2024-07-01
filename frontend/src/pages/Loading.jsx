@@ -1,24 +1,27 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Navigation from "../components/Navigation";
 
 function Loading() {
   const navigate = useNavigate();
   setTimeout(() => {
-    console.log('Redirecting to login');
-    navigate('/login');
+    console.log("Redirecting to login");
+    navigate("/login");
   }, 2000);
   return (
     <>
-      <header className="sticky left-0 top-0 w-full z-10 bg-red-500 font-bold text-white text-3xl p-2 mb-10">
-        Street Light Complaint
-      </header>
+      <Navigation text="Street Light Complaint" />
       <main className="flex items-center justify-center h-[500px]">
-        <div className="text-3xl font-bold text-red-500">Loading...</div>
+        <div className="text-3xl font-bold text-center">
+          <img
+            src="/assets/slcs_logo.png"
+            className="rounded-full"
+            alt="logo"
+          />
+        </div>
       </main>
-
     </>
-  )
+  );
 }
 
-export default Loading
+export default Loading;

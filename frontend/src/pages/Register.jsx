@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { lazy, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { setUserData } from "../services/store";
+import Navigation from "../components/Navigation";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -10,6 +13,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +38,8 @@ export default function Register() {
         }
       )
       alert("Registration Successful");
+      console.log('response', response);
+      
       dispatch(setUserData(response.data.data.user));
       sessionStorage.setItem("user", JSON.stringify(response.data.data));
       navigate("/complaint");
@@ -53,9 +59,7 @@ export default function Register() {
 
   return (
     <>
-      <header className="sticky left-0 top-0 w-full z-10 bg-red-500 font-bold text-white text-3xl p-2 mb-10">
-        Sign Up
-      </header>
+      <Navigation text="Sign Up" />
       <main className="">
         <form className="flex flex-col items-start w-full h-full gap-4 ml-10">
           <label htmlFor="name">Enter Name</label>

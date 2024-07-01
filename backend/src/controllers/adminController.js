@@ -1,19 +1,16 @@
-import jwt from "jsonwebtoken";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { Admin } from "../models/admin.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { User } from "../models/user.js";
-
-const phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
-// frontend optimisation
+import { asyncHandler } from "../utils/asyncHandler.js";
+import jwt from "jsonwebtoken";
 
 const login = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     throw new ApiError(400, "Please provide username and password");
   }
 
-  const user = await User.findOne({ username });
+  const user = await Admin.findOne({ email });
   if (!user) {
     throw new ApiError(401, "Invalid credentials");
   }
@@ -22,47 +19,64 @@ const login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  const loggedInUser = await User.findById(user._id).select("-password");
-  req.user = loggedInUser;
+  const loggedInUser = await Admin.findById(user._id).select("-password");
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
   return res
     .status(200)
     .cookie("token", token, { httpOnly: true, secure: true })
     .json(
-      new ApiResponse(true, { token, user: loggedInUser }, "Login successful!")
+      new ApiResponse(
+        true,
+        { token, user: loggedInUser },
+        "Admin login successful!"
+      )
     );
 });
 
 const register = asyncHandler(async (req, res) => {
-  const { name, username, password, phoneNo } = req.body;
-  if (!name || !username || !password || !phoneNo) {
+  const {
+    name,
+    email,
+    password,
+    phoneNo,
+    area,
+    centre,
+    division,
+    centrePhone,
+  } = req.body;
+  if (
+    !name ||
+    !email ||
+    !password ||
+    !phoneNo ||
+    !area ||
+    !centre ||
+    !division ||
+    !centrePhone
+  ) {
     throw new ApiError(400, "Please provide all the required fields");
   }
-  console.log('body: ', req.body);
-  
-  const user = await User.findOne({ username });
+  console.log("body: ", req.body);
+
+  const user = await Admin.findOne({ email });
   if (user) {
     throw new ApiError(400, "Username already exists");
   }
 
-  if(phoneNo.match(phoneRegex) === null){
-    throw new ApiError(400, "Invalid phone number")
-  }
-
-  const newUser = await User.create({
+  const newUser = await Admin.create({
     name,
-    username,
+    email,
     password,
     phoneNo,
+    area,
+    centre,
+    division,
+    centrePhone,
   });
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
-  const loggedInUser = await User.findById(newUser._id).select("-password");
+  const loggedInUser = await Admin.findById(newUser._id).select("-password");
   req.user = loggedInUser;
 
   return res
@@ -99,9 +113,9 @@ const profile = asyncHandler(async (req, res) => {
 
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-  const user = await User.findById(decodedToken.id).select("-password");
+  const user = await Admin.findById(decodedToken.id).select("-password");
 
   return res.status(200).json(new ApiResponse(200, user, "Profile fetched"));
-});
+})
 
 export { login, register, logout, profile };

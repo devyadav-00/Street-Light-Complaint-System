@@ -1,10 +1,35 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Signature from "../components/Signature";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ImageStorage } from "../../services/firebaseConfig";
 import { v4 } from "uuid";
+import Navigation from "../components/Navigation";
+
+const types = [
+  {
+    id: 1, 
+    name: "INDIVIDUAL",
+  },
+  {
+    id: 2,
+    name: "METER",
+  },
+  {
+    id: 3,
+    name: "EMERGENCY",
+  },
+  {
+    id: 4,
+    name: "AREA",
+  },
+  {
+    id: 5,
+    name: "CMHOUSE",
+  },
+  {
+    id: 6,
+    name: "STREETLIGHT",
+  }
+]
 
 export default function NewComplaint() {
   const [signatureTab, setSignatureTab] = useState("");
@@ -18,23 +43,27 @@ export default function NewComplaint() {
     console.log("user", user);
   }, [user]);
 
-  const [area, setArea] = useState("");
   const [location, setLocation] = useState("");
   const [centre, setCentre] = useState("");
   const [category, setCategory] = useState("");
   const [fault, setFault] = useState("");
   const [name, setName] = useState(user?.name || "");
   const [address, setAddress] = useState("");
+  const [area, setArea] = useState("");
   const [division, setDivision] = useState("");
   const [centrePhone, setCentrePhone] = useState("");
   const [callerPhone, setCallerPhone] = useState(user?.phoneNo || "");
   const [alternatePhone, setAlternatePhone] = useState("");
   const [remarks, setRemarks] = useState("");
 
+  const [allAreas, setAllAreas] = useState([]);
+  const [allCentres, setAllCentres] = useState([]);
+  const [allDivision, setAllDivision] = useState([]);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     console.log(
-      "response: ",
+      "values: ",
       alternatePhone,
       area,
       address,
@@ -46,10 +75,10 @@ export default function NewComplaint() {
       division,
       location,
       remarks,
-      image,
-      signatureLink,
       fault
     );
+    console.log('images: ', image, signatureLink);
+    
 
     try {
       const response = await axios
@@ -120,7 +149,7 @@ export default function NewComplaint() {
     const imageUploaded = e.target.files[0];
 
     const imgRef = ref(ImageStorage, `images/${v4()}`);
-    uploadBytes(imgRef, imageUploaded).then((snapshot) => {
+    uploadBytes(imgRef, imageUploaded, ).then((snapshot) => {
       // console.log("Uploaded a blob or file!", snapshot);
       setImage(snapshot.metadata.fullPath);
       // console.log('image:', image);
@@ -128,12 +157,63 @@ export default function NewComplaint() {
     // console.log('imgRef: ', imgRef);
   };
 
+  useEffect(() => {
+    const fetchArea = async () => {
+      try {
+        const data = await axios.get("api/v1/complaints/allarea/a");
+        setAllAreas(data.data.data);
+      } catch (error) {
+        alert("Error fetching areas");
+      }
+    };
+    fetchArea();
+  }, []);
+
+  useEffect(() => {
+    const fetchCentres = async () => {
+      try {
+        const data = await axios.get(`api/v1/complaints/center/${area}`);
+        setAllCentres(data.data.data);
+      } catch (error) {
+        // alert("Error fetching centers");
+      }
+    };
+    fetchCentres();
+  }, [area]);
+
+  useEffect(() => {
+    const fetchDivisions = async () => {
+      try {
+        const data = await axios.get(`api/v1/complaints/division/${centre}`);
+        console.log("data", data.data);
+        setAllDivision(data.data.data);
+      } catch (error) {
+        // console.error("Error fetching division:", error);
+      }
+    };
+    fetchDivisions();
+  }, [centre, area]);
+
+  useEffect(() => {
+    if (division) {
+      console.log("division", division);
+      const divisionData = allDivision.find((div) => div._id === division);
+      console.log('divisionData', divisionData);
+      
+      if (divisionData) {
+        setCentrePhone(divisionData.centrePhone);
+      } else {
+        setCentrePhone("");
+      }
+    }
+  }, [division, allDivision]);
+
   return (
     <>
-      <header className="sticky left-0 top-0 w-full z-10 bg-red-500 font-bold text-white text-3xl p-2 mb-2">
-        Street Light Complaint
-      </header>
-      <main className="mx-2 h-[640px]">
+    <Link to={'/'}>
+      <Navigation text="Street Light Complaint" />
+    </Link>
+      <main className="mx-2 h-[600px]">
         <div className="text-2xl font-bold text-red-500 border p-4 mb-8 rounded-lg">
           New Complaint Page
         </div>
@@ -142,23 +222,45 @@ export default function NewComplaint() {
           <label htmlFor="area" className="text-blue-500">
             Area
           </label>
-          <input
+          <select
             type="text"
             id="area"
             value={area}
             onChange={(e) => setArea(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-          />
+            required
+          >
+            <option value="" className="bg-black/60">
+              Select Area
+            </option>
+            {allAreas?.map((ar, index) => (
+              <option value={ar._id} key={index} className="bg-black/90">
+                {ar._id}
+              </option>
+            ))}
+          </select>
+
           <label htmlFor="centre" className="text-blue-500">
             Complaint Centre
           </label>
-          <input
+          <select
             type="text"
             id="centre"
             value={centre}
             onChange={(e) => setCentre(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-          />
+            required
+          >
+            <option value="" className="bg-black/60">
+              Select Centre
+            </option>
+
+            {allCentres.map((cen) => (
+              <option value={cen._id} className="bg-black/90">
+                {cen._id}
+              </option>
+            ))}
+          </select>
           <label htmlFor="category" className="text-blue-500">
             Complaint Category
           </label>
@@ -168,18 +270,29 @@ export default function NewComplaint() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="fault" className="text-blue-500">
             Type of Fault
           </label>
-          <input
+          <select
             type="text"
             id="fault"
             value={fault}
             onChange={(e) => setFault(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-          />
+            required
+          >
+            <option value="" className="bg-black/60">
+              Select Fault Type
+            </option>
+            {types.map((type) => (
+              <option value={type.name} className="bg-black/90">
+                {type.name}
+              </option>
+            ))}
+          </select>
 
           <label htmlFor="name" className="text-blue-500">
             Caller Name
@@ -190,6 +303,7 @@ export default function NewComplaint() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="address" className="text-blue-500">
@@ -201,18 +315,29 @@ export default function NewComplaint() {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="division" className="text-blue-500">
             Division
           </label>
-          <input
+          <select
             type="text"
             id="division"
             value={division}
             onChange={(e) => setDivision(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-          />
+            required
+          >
+            <option value="" className="bg-black/60">
+              Select Division
+            </option>
+            {allDivision.map((div) => (
+              <option value={div._id} className="bg-black/90">
+                {div._id}
+              </option>
+            ))}
+          </select>
 
           <label htmlFor="centrePhone" className="text-blue-500">
             Complaint Center Phone
@@ -220,9 +345,11 @@ export default function NewComplaint() {
           <input
             type="text"
             id="centrePhone"
+            disabled={true}
             value={centrePhone}
             onChange={(e) => setCentrePhone(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="callerPhone" className="text-blue-500">
@@ -234,6 +361,7 @@ export default function NewComplaint() {
             value={callerPhone}
             onChange={(e) => setCallerPhone(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="alternatePhone" className="text-blue-500">
@@ -245,6 +373,7 @@ export default function NewComplaint() {
             value={alternatePhone}
             onChange={(e) => setAlternatePhone(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="remarks" className="text-blue-500">
@@ -256,6 +385,7 @@ export default function NewComplaint() {
             value={remarks}
             onChange={(e) => setRemarks(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <label htmlFor="location" className="text-blue-500">
@@ -267,6 +397,7 @@ export default function NewComplaint() {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
+            required
           />
 
           <div className="grid grid-cols-2 pb-10 items-center justify-center w-full gap-8 mt-10 align-middle pr-16">
@@ -280,6 +411,7 @@ export default function NewComplaint() {
                 type="file"
                 onChange={handleImage}
                 className="absolute opacity-0 block bg-transparent top-0 w-full p-2 rounded-lg hover:bg-red-600 cursor-pointer border-red-600 transition-all duration-500"
+                required
               />
             </div>
             <button

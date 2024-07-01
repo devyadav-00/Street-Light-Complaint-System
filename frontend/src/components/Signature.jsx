@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { X } from "lucide-react";
 import { ImageStorage } from "../../services/firebaseConfig";
@@ -15,18 +15,35 @@ function Signature({ onClose, setSignatureLink }) {
     setSignatureData(null);
   };
 
-  const handleGetSignature = () => {
-    setSignatureData(signature.toDataURL("/image/png"));
+  useEffect(() => {
+    console.log('signatureData', signatureData);
+    console.log("signature",typeof signature?.toDataURL("image/png"),  signature?.toDataURL("image/png"));
+    
+    
+  }, [signature, signatureData]);
 
-    const storageRef = ref(ImageStorage, `signature/${v4()}`);
-    uploadBytes(storageRef, signatureData).then((snapshot) => {
-      // console.log("Uploaded a blob or file!", snapshot);
-      setSignatureLink(snapshot.metadata.fullPath);
-      // console.log('image:', image);
-      onClose();
-    }).catch((error) => {
-      console.error("Error creating complaint:", error);
-    });
+  const handleGetSignature = () => {
+    setSignatureData(signature.toDataURL("image/png"));
+
+    setSignatureLink(signature?.toDataURL("image/png"));
+
+    console.log("signatureData", signature?.toDataURL("image/png"));
+    
+    
+
+    onClose();
+
+    // const storageRef = ref(ImageStorage, `signature/${v4()}`);
+    // uploadBytes(storageRef, signatureData, { contentType: 'image/png' })
+    //   .then((snapshot) => {
+    //     // console.log("Uploaded a blob or file!", snapshot);
+    //     setSignatureLink(snapshot.metadata.fullPath);
+    //     // console.log('image:', image);
+    //     onClose();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error creating complaint:", error);
+    //   });
 
   };
 

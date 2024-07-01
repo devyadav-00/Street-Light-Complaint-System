@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetUserData, setUserData } from "../services/store";
 import Navigation from "../components/Navigation";
 
-export default function Login() {
-  const [username, setUsername] = useState("");
+
+const AdminLogin = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
@@ -32,40 +33,40 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios
-        .post("api/v1/users/login", {
-          username,
+        .post("api/v1/admin/login", {
+          email,
           password,
         })
         .then((response) => {
           alert("Login Successful");
           dispatch(setUserData(response.data.data.user));
           sessionStorage.setItem("user", JSON.stringify(response.data.data));
-          navigate("/complaint");
-        })
+          navigate("/admin/complaint");
+        });
       // console.log("Login successful", response.data);
 
       // console.log("final data : ",response.data.data);
     } catch (error) {
       alert("Error", error);
       console.error("Error logging in:", error);
-      setUsername("");
+      setEmail("");
       setPassword("");
     }
   };
 
   return (
     <>
-      <Navigation text="Login" />
+      <Navigation text="Admin Login" />
 
       <main className="">
         <form className="flex flex-col items-start w-full h-full gap-4 ml-10">
-          <label htmlFor="username">Enter Username</label>
+          <label htmlFor="email">Enter Email</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
             className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500"
           />
 
@@ -87,21 +88,12 @@ export default function Login() {
             >
               Login
             </button>
-            <Link
-              className="text-white hover:text-blue-200 font-semibold transition-all duration-500 ease-in-out hover:scale-110"
-              to="/register"
-            >
-              New User?
-            </Link>
-            <Link
-              className="text-white border p-2 rounded-lg hover:bg-black/80 hover:text-blue-200 font-semibold transition-all duration-500 ease-in-out"
-              to="/admin/login"
-            >
-              Admin Login
-            </Link>
+            
           </div>
         </form>
       </main>
     </>
   );
 }
+
+export default AdminLogin

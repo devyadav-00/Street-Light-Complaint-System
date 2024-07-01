@@ -54,6 +54,16 @@ const complaintSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      default: "pending",
+    },
+    approvedBy: {
+      type: String,
+    },
+    approverRemarks: {
+      type: String,
+    },
     username: {
       type: String,
     },
