@@ -3,6 +3,9 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ImageStorage } from "../../services/firebaseConfig";
 import { v4 } from "uuid";
 import Navigation from "../components/Navigation";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const types = [
   {
@@ -163,7 +166,7 @@ export default function NewComplaint() {
         const data = await axios.get("api/v1/complaints/allarea/a");
         setAllAreas(data.data.data);
       } catch (error) {
-        alert("Error fetching areas");
+        // alert("Error fetching areas");
       }
     };
     fetchArea();
@@ -196,9 +199,9 @@ export default function NewComplaint() {
 
   useEffect(() => {
     if (division) {
-      console.log("division", division);
+      // console.log("division", division);
       const divisionData = allDivision.find((div) => div._id === division);
-      console.log('divisionData', divisionData);
+      // console.log('divisionData', divisionData);
       
       if (divisionData) {
         setCentrePhone(divisionData.centrePhone);
