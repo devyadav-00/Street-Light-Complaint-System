@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  // console.log('body: ', req.body);
+  
   if (!email || !password) {
     throw new ApiError(400, "Please provide username and password");
   }

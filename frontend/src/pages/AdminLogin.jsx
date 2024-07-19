@@ -33,7 +33,7 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       const response = await axios
-        .post("api/v1/admin/login", {
+        .post("/api/v1/admin/login", {
           email,
           password,
         })

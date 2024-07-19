@@ -4,6 +4,8 @@ class ApiError extends Error {
     this.statusCode = statusCode;
     // this.message = message;
     this.isOperational = true;
+    console.log("error: ", this.message);
+    
 
     Error.captureStackTrace(this, this.constructor);
   }

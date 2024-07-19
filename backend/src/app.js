@@ -15,6 +15,7 @@ import authRoute from "./routes/authRoute.js";
 import complaintRoute from "./routes/complaintRoute.js";
 import adminRoute from "./routes/adminRoute.js";
 
+app.get("/", (req, res) => {return res.send("Welcome to the Complaint Management System")});
 app.use("/api/v1/users", authRoute);
 app.use("/api/v1/complaints", complaintRoute);
 app.use("/api/v1/admin", adminRoute);

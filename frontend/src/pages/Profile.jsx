@@ -75,7 +75,7 @@ const Profile = () => {
               )}
             </ul>
           </div>
-          <div className="flex flex-col items-center justify-center w-full gap-8 mt-10 align-middle pr-16">
+          <div className="flex flex-col items-center justify-center w-full gap-8 mt-10 align-middle">
             <button
               type="submit"
               onClick={() => {
@@ -88,14 +88,14 @@ const Profile = () => {
             </button>
             <Link
               className="text-white hover:text-blue-200 font-semibold"
-              to={`${isAdmin ? "/adminComplaint" : "/complaint"}`}
+              to={`${isAdmin ? "/admin/complaint" : "/complaint"}`}
             >
               Back to complaint page?
             </Link>
             {isAdmin && (
               <Link
                 className="text-white hover:text-blue-200 font-semibold"
-                to="/adminRegister"
+                to="/admin/register"
               >
                 Register new Admin!
               </Link>

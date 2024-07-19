@@ -10,17 +10,17 @@ const AdminComplaints = () => {
   const navigate = useNavigate();
 
   const [complaints, setComplaints] = useState();
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = useState(false); 
 
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
+        `/api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
       );
-      console.log("response", response);
+      // console.log("response", response);
 
       setComplaints(response.data.data);
-      complaints.sort([createdAt, 1]);
+      // complaints.sort([createdAt, 1]);
     } catch (error) {
       // alert("Error", error);
       console.log("No user found", error);

@@ -15,7 +15,7 @@ function Complaint() {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `api/v1/complaints/user/${user.user.username}`
+        `/api/v1/complaints/user/${user.user.username}`
       );
       // console.log("response", response);
 
