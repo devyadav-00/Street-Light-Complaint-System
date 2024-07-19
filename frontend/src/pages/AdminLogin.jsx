@@ -34,10 +34,13 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       const response = await axios
-        .post(url + "/api/v1/admin/login", {
-          email,
-          password,
-        })
+        .post(
+            "https://street-light-complaint-system-api.vercel.app//api/v1/admin/login",
+          {
+            email,
+            password,
+          }
+        )
         .then((response) => {
           alert("Login Successful");
           dispatch(setUserData(response.data.data.user));

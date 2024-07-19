@@ -17,7 +17,7 @@ const AdminComplaints = () => {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `${url}/api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
+        `https://street-light-complaint-system-api.vercel.app//api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
       );
       // console.log("response", response);
 

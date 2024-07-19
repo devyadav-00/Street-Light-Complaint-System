@@ -26,7 +26,7 @@ export default function Register() {
 
     try {
       const response = await axios.post(
-        url + "api/v1/users/register",
+        "https://street-light-complaint-system-api.vercel.app/api/v1/users/register",
         {
           name,
           phoneNo: phone,

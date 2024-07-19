@@ -189,7 +189,7 @@ export default function NewComplaint() {
     const fetchDivisions = async () => {
       try {
         const data = await axios.get(
-          url + `api/v1/complaints/division/${centre}`
+          `https://street-light-complaint-system-api.vercel.app/api/v1/complaints/division/${centre}`
         );
         // console.log("data", data.data);
         setAllDivision(data.data.data);

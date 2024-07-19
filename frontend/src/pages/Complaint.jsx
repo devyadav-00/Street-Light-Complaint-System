@@ -17,7 +17,7 @@ function Complaint() {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `${url}/api/v1/complaints/user/${user.user.username}`
+        `https://street-light-complaint-system-api.vercel.app/api/v1/complaints/user/${user.user.username}`
       );
       // console.log("response", response);
 

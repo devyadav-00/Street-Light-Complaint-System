@@ -18,7 +18,10 @@ const ComplaintDetails = () => {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const response = await axios.get(url+"/api/v1/complaints/" + complaintId);
+        const response = await axios.get(
+          "https://street-light-complaint-system-api.vercel.app/api/v1/complaints/" +
+            complaintId
+        );
         setComplaint(response.data.data);
       } catch (error) {}
     };
@@ -29,10 +32,14 @@ const ComplaintDetails = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(url+"/api/v1/complaints/" + complaintId, {
-        status,
-        remarks,
-      });
+      const response = await axios.put(
+        "https://street-light-complaint-system-api.vercel.app//api/v1/complaints/" +
+          complaintId,
+        {
+          status,
+          remarks,
+        }
+      );
       console.log("response", response);
 
       navigate("/admin/complaint");

@@ -36,16 +36,19 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios
-        .post(url + "api/v1/users/login", {
-          username,
-          password,
-        })
+        .post(
+          "https://street-light-complaint-system-api.vercel.app/api/v1/users/login",
+          {
+            username,
+            password,
+          }
+        )
         .then((response) => {
           alert("Login Successful");
           dispatch(setUserData(response.data.data.user));
           sessionStorage.setItem("user", JSON.stringify(response.data.data));
           navigate("/complaint");
-        })
+        });
       // console.log("Login successful", response.data);
 
       // console.log("final data : ",response.data.data);
