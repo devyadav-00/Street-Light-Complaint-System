@@ -11,7 +11,7 @@ app.use(cookieParser());
 
 // handle cors
 app.use(cors({
-    origin: ["https://street-light-complaint-system.vercel.app"],
+    origin: ["https://street-light-complaint-system.vercel.app/"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true
 }))
