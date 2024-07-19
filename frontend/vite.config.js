@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     proxy: {
-      '/api/v1' : 'http://localhost:5000'
-    }
+      "/api/v1": "https://street-light-complaint-system.vercel.app/",
+    },
   },
   plugins: [react()],
-})
+});
