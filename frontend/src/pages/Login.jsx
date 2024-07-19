@@ -5,9 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetUserData, setUserData } from "../services/store";
 import Navigation from "../components/Navigation";
 
+const url = import.meta.env.VITE_BACKEND_URL;
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  // console.log("url", url);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,7 +36,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios
-        .post("api/v1/users/login", {
+        .post(url + "api/v1/users/login", {
           username,
           password,
         })

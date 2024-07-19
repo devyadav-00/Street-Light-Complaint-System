@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetUserData, setUserData } from "../services/store";
 import Navigation from "../components/Navigation";
 
+const url = import.meta.env.VITE_BACKEND_URL;
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       const response = await axios
-        .post("/api/v1/admin/login", {
+        .post(url + "/api/v1/admin/login", {
           email,
           password,
         })

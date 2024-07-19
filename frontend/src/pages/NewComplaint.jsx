@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const types = [
   {
-    id: 1, 
+    id: 1,
     name: "INDIVIDUAL",
   },
   {
@@ -31,8 +31,10 @@ const types = [
   {
     id: 6,
     name: "STREETLIGHT",
-  }
-]
+  },
+];
+
+const url = import.meta.env.VITE_BACKEND_URL;
 
 export default function NewComplaint() {
   const [signatureTab, setSignatureTab] = useState("");
@@ -65,28 +67,27 @@ export default function NewComplaint() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log(
-      "values: ",
-      alternatePhone,
-      area,
-      address,
-      name,
-      callerPhone,
-      category,
-      centre,
-      centrePhone,
-      division,
-      location,
-      remarks,
-      fault
-    );
-    console.log('images: ', image, signatureLink);
-    
+    // console.log(
+    //   "values: ",
+    //   alternatePhone,
+    //   area,
+    //   address,
+    //   name,
+    //   callerPhone,
+    //   category,
+    //   centre,
+    //   centrePhone,
+    //   division,
+    //   location,
+    //   remarks,
+    //   fault
+    // );
+    // console.log('images: ', image, signatureLink);
 
     try {
       const response = await axios
         .post(
-          "api/v1/complaints/create",
+          url + "api/v1/complaints/create",
           {
             username: user?.username || null,
             alternatePhone,
@@ -111,7 +112,7 @@ export default function NewComplaint() {
           }
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           alert("Complaint Submitted Successfully");
           navigate("/complaint");
         })
@@ -152,7 +153,7 @@ export default function NewComplaint() {
     const imageUploaded = e.target.files[0];
 
     const imgRef = ref(ImageStorage, `images/${v4()}`);
-    uploadBytes(imgRef, imageUploaded, ).then((snapshot) => {
+    uploadBytes(imgRef, imageUploaded).then((snapshot) => {
       // console.log("Uploaded a blob or file!", snapshot);
       setImage(snapshot.metadata.fullPath);
       // console.log('image:', image);
@@ -163,7 +164,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchArea = async () => {
       try {
-        const data = await axios.get("api/v1/complaints/allarea/a");
+        const data = await axios.get(url + "api/v1/complaints/allarea/a");
         setAllAreas(data.data.data);
       } catch (error) {
         // alert("Error fetching areas");
@@ -175,7 +176,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchCentres = async () => {
       try {
-        const data = await axios.get(`api/v1/complaints/center/${area}`);
+        const data = await axios.get(url + `api/v1/complaints/center/${area}`);
         setAllCentres(data.data.data);
       } catch (error) {
         // alert("Error fetching centers");
@@ -187,8 +188,10 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchDivisions = async () => {
       try {
-        const data = await axios.get(`api/v1/complaints/division/${centre}`);
-        console.log("data", data.data);
+        const data = await axios.get(
+          url + `api/v1/complaints/division/${centre}`
+        );
+        // console.log("data", data.data);
         setAllDivision(data.data.data);
       } catch (error) {
         // console.error("Error fetching division:", error);
@@ -202,7 +205,7 @@ export default function NewComplaint() {
       // console.log("division", division);
       const divisionData = allDivision.find((div) => div._id === division);
       // console.log('divisionData', divisionData);
-      
+
       if (divisionData) {
         setCentrePhone(divisionData.centrePhone);
       } else {
@@ -213,9 +216,9 @@ export default function NewComplaint() {
 
   return (
     <>
-    <Link to={'/'}>
-      <Navigation text="Street Light Complaint" />
-    </Link>
+      <Link to={"/"}>
+        <Navigation text="Street Light Complaint" />
+      </Link>
       <main className="mx-2 h-[600px]">
         <div className="text-2xl font-bold text-red-500 border p-4 mb-8 rounded-lg">
           New Complaint Page

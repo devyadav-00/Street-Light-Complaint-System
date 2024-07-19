@@ -5,6 +5,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { setUserData } from "../services/store";
 import Navigation from "../components/Navigation";
 
+const url = import.meta.env.VITE_BACKEND_URL;
+
 const AdminRegister = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +31,7 @@ const AdminRegister = () => {
 
     try {
       const response = await axios.post(
-        "api/v1/admin/register",
+        url + "api/v1/admin/register",
         {
           name,
           email,
@@ -161,7 +163,6 @@ const AdminRegister = () => {
           />
 
           <div className="flex flex-col items-center justify-center w-full  gap-4 mt-10 pr-20">
-            
             <button
               type="submit"
               onClick={handleSubmit}

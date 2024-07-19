@@ -10,7 +10,7 @@ connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log("Server is running on port: " + PORT);
-      console.log("Open the server on https://localhost:" + PORT);
+      // console.log("Open the server on https://localhost:" + PORT);
     });
   })
   .catch((err) => {

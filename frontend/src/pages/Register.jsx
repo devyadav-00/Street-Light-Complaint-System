@@ -5,6 +5,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { setUserData } from "../services/store";
 import Navigation from "../components/Navigation";
 
+const url = import.meta.env.VITE_BACKEND_URL;
+
 export default function Register() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -24,7 +26,7 @@ export default function Register() {
 
     try {
       const response = await axios.post(
-        "api/v1/users/register",
+        url + "api/v1/users/register",
         {
           name,
           phoneNo: phone,
@@ -36,18 +38,17 @@ export default function Register() {
             "Content-Type": "application/json",
           },
         }
-      )
+      );
       alert("Registration Successful");
-      console.log('response', response);
-      
+      console.log("response", response);
+
       dispatch(setUserData(response.data.data.user));
       sessionStorage.setItem("user", JSON.stringify(response.data.data));
       navigate("/complaint");
       console.log("Registration successful", response.data);
     } catch (error) {
       alert("Fill all fields");
-      console.log('error', error);
-      
+      console.log("error", error);
     }
 
     setName("");

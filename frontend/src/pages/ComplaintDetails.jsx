@@ -4,6 +4,8 @@ import Navigation from "../components/Navigation";
 import axios from "axios";
 import ComplaintImages from "../components/ComplaintImages";
 
+const url = import.meta.env.VITE_BACKEND_URL;
+
 const ComplaintDetails = () => {
   const { isAdmin, complaintId } = useParams();
 
@@ -16,7 +18,7 @@ const ComplaintDetails = () => {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const response = await axios.get("/api/v1/complaints/" + complaintId);
+        const response = await axios.get(url+"/api/v1/complaints/" + complaintId);
         setComplaint(response.data.data);
       } catch (error) {}
     };
@@ -27,7 +29,7 @@ const ComplaintDetails = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/api/v1/complaints/" + complaintId, {
+      const response = await axios.put(url+"/api/v1/complaints/" + complaintId, {
         status,
         remarks,
       });

@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import NavWithProfile from "../components/NavWithProfile";
 import ComplaintCard from "../components/ComplaintCard";
 
+const url = import.meta.env.VITE_BACKEND_URL;
+
 function Complaint() {
   const user = JSON.parse(sessionStorage.getItem("user")) || null;
   // console.log("user", user);
@@ -15,7 +17,7 @@ function Complaint() {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `/api/v1/complaints/user/${user.user.username}`
+        `${url}/api/v1/complaints/user/${user.user.username}`
       );
       // console.log("response", response);
 

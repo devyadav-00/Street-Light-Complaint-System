@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ComplaintCard from "../components/ComplaintCard";
 
+const url = import.meta.env.VITE_BACKEND_URL;
+
 const AdminComplaints = () => {
   const user = JSON.parse(sessionStorage.getItem("user")) || null;
   // console.log("user", user);
@@ -15,7 +17,7 @@ const AdminComplaints = () => {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `/api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
+        `${url}/api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
       );
       // console.log("response", response);
 
