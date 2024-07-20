@@ -36,8 +36,9 @@ You can view the live preview of the project [here](https://slcms.vercel.app/).
 
 1. *Fork this repository:* Click the Fork button located in the top-right corner of this page to fork the repository.
 2. *Clone the repository:*
-    bash
-    git clone https://github.com/<your-username>/Code-Sync.git
+    ```bash
+    git clone https://github.com/satwikgupta/Street-Light-Complaint-System.git
+    ```
     
 3. *Set .env file:*
    Inside the client and server directories make a file .env and set the following environment variables.
@@ -45,19 +46,22 @@ You can view the live preview of the project [here](https://slcms.vercel.app/).
 
 4. *Install dependencies:*
    Navigate to the frontend and backend directories separately and run:
-    bash
+   ``` bash
      npm install
+   ```
     
 5. *Start the frontend and backend servers:*  
     Backend:
-    bash
+    ```bash
     cd backend
     npm start
+    ```
    
    Frontend:
-    bash
+    ```bash
     cd frontend
-    npm run dev 
+    npm run dev
+    ```
     
 7. *Access the application:*
    Open a browser and enter the following URL:
