@@ -65,8 +65,9 @@ You can view the live preview of the project [here](https://slcms.vercel.app/).
     
 7. *Access the application:*
    Open a browser and enter the following URL:
-    bash
+    ```bash
     http://localhost:5173/
+    ```
     
 ## ✍ About Developer
 
