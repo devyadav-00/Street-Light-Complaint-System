@@ -429,7 +429,7 @@ export default function NewComplaint() {
             />
           </div>
 
-          <div className="grid grid-cols-2 pb-10 items-center justify-center w-full gap-8 mt-10 align-middle text-center px-16">
+          <div className="grid grid-cols-2 pb-10 items-center justify-center w-full gap-8 mt-10 align-middle text-center px-8">
             {/* buttons for camera, signature, register and reset */}
 
             <div className="flex relative border-2 h-full border-red-500 rounded-lg hover:bg-red-500 w-full transition-all duration-500">
