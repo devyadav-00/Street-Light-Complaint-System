@@ -15,7 +15,7 @@ const AdminComplaints = () => {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `/api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
+        `https://street-light-complaint-system.onrender.com/api/v1/complaints/admin?area=${user.user.area}&&centre=${user.user.centre}&&division=${user.user.division}`
       );
       // console.log("response", response);
 

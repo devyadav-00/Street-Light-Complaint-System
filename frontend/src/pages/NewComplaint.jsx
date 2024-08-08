@@ -86,7 +86,7 @@ export default function NewComplaint() {
     try {
       const response = await axios
         .post(
-          "/api/v1/complaints/create",
+          "https://street-light-complaint-system.onrender.com/api/v1/complaints/create",
           {
             username: user?.username || null,
             alternatePhone,
@@ -163,7 +163,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchArea = async () => {
       try {
-        const data = await axios.get("/api/v1/complaints/allarea/a");
+        const data = await axios.get("https://street-light-complaint-system.onrender.com/api/v1/complaints/allarea/a");
         // console.log('data', data);
         setAllAreas(data.data.data);
       } catch (error) {
@@ -176,7 +176,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchCentres = async () => {
       try {
-        const data = await axios.get(`/api/v1/complaints/center/${area}`);
+        const data = await axios.get(`https://street-light-complaint-system.onrender.com/api/v1/complaints/center/${area}`);
         setAllCentres(data.data.data);
       } catch (error) {
         // alert("Error fetching centers");
@@ -188,7 +188,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchDivisions = async () => {
       try {
-        const data = await axios.get(`/api/v1/complaints/division/${centre}`);
+        const data = await axios.get(`https://street-light-complaint-system.onrender.com/api/v1/complaints/division/${centre}`);
         // console.log("data", data.data);
         setAllDivision(data.data.data);
       } catch (error) {

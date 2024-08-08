@@ -33,7 +33,7 @@ const AdminLogin = () => {
     try {
       const response = await axios
         .post(
-          "/api/v1/admin/login",
+          "https://street-light-complaint-system.onrender.com/api/v1/admin/login",
           {
             email,
             password,

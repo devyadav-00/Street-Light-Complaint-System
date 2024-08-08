@@ -29,7 +29,7 @@ const AdminRegister = () => {
 
     try {
       const response = await axios.post(
-        "/api/v1/admin/register",
+        "https://street-light-complaint-system.onrender.com/api/v1/admin/register",
         {
           name,
           email,

@@ -24,7 +24,7 @@ export default function Register() {
 
     try {
       const response = await axios.post(
-        "/api/v1/users/register",
+        "https://street-light-complaint-system.onrender.com/api/v1/users/register",
         {
           name,
           phoneNo: phone,

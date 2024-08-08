@@ -16,7 +16,7 @@ const ComplaintDetails = () => {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const response = await axios.get("/api/v1/complaints/" + complaintId);
+        const response = await axios.get("https://street-light-complaint-system.onrender.com/api/v1/complaints/" + complaintId);
         setComplaint(response.data.data);
       } catch (error) {}
     };
@@ -27,7 +27,7 @@ const ComplaintDetails = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/api/v1/complaints/" + complaintId, {
+      const response = await axios.put("https://street-light-complaint-system.onrender.com/api/v1/complaints/" + complaintId, {
         status,
         remarks,
       });
