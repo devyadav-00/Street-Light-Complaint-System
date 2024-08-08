@@ -5,8 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import NavWithProfile from "../components/NavWithProfile";
 import ComplaintCard from "../components/ComplaintCard";
 
-const url = import.meta.env.VITE_BACKEND_URL;
-
 function Complaint() {
   const user = JSON.parse(sessionStorage.getItem("user")) || null;
   // console.log("user", user);
@@ -17,7 +15,7 @@ function Complaint() {
   const handleComplaint = async () => {
     try {
       const response = await axios.get(
-        `https://street-light-complaint-system-api.vercel.app/api/v1/complaints/user/${user.user.username}`
+        `/api/v1/complaints/user/${user.user.username}`
       );
       // console.log("response", response);
 
@@ -33,24 +31,23 @@ function Complaint() {
     if (user) handleComplaint();
   }, []);
 
-  // console.log("complaints", complaints);
-
   return (
     <>
       <NavWithProfile text="All Complaints" />
-      <main className="h-[680px] overflow-scroll no-scrollbar">
-        <div className="flex flex-col items-center gap-4">
+      <main className="h-[90vh] overflow-y-scroll text-center">
+        {/* file new complaint */}
+
+        <div className="flex justify-center items-end mt-2">
+          <Link to="/newComplaint" className="text-red-500 font-bold text-lg">
+            File new complaint !
+          </Link>
+        </div>
+
+        <div className="flex flex-col items-center gap-4 my-10">
           {Array.isArray(complaints) &&
             complaints.map((complaint, index) => (
               <ComplaintCard complaint={complaint} key={index} type="user" />
             ))}
-        </div>
-        {/* file new complaint */}
-
-        <div className="flex justify-center items-end mt-8">
-          <Link to="/newComplaint" className="text-red-500 font-bold text-lg">
-            File new complaint !
-          </Link>
         </div>
 
         <button
@@ -58,7 +55,7 @@ function Complaint() {
             sessionStorage.removeItem("user");
             navigate("/login");
           }}
-          className="bg-red-500 mt-6 text-white px-4 py-2 rounded-md"
+          className="bg-red-500 mt-6 text-white px-4 py-2 rounded-md mb-10"
         >
           Logout
         </button>

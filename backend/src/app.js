@@ -10,11 +10,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // handle cors
-app.use(cors({
-    origin: ["https://street-light-complaint-system.vercel.app/"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true
-}))
+app.use(cors())
 
 import authRoute from "./routes/authRoute.js";
 import complaintRoute from "./routes/complaintRoute.js";

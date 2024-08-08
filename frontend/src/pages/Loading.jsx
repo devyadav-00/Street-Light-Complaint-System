@@ -11,7 +11,7 @@ function Loading() {
   return (
     <>
       <Navigation text="Street Light Complaint" />
-      <main className="flex items-center justify-center h-[500px]">
+      <main className="flex items-center justify-center h-[90vh]">
         <div className="text-3xl font-bold text-center">
           <img
             src="/assets/slcs_logo.png"

@@ -5,13 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetUserData, setUserData } from "../services/store";
 import Navigation from "../components/Navigation";
 
-const url = import.meta.env.VITE_BACKEND_URL;
-
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // console.log("url", url);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,7 +33,7 @@ export default function Login() {
     try {
       const response = await axios
         .post(
-          "https://street-light-complaint-system-api.vercel.app/api/v1/users/login",
+          "/api/v1/users/login",
           {
             username,
             password,
@@ -65,32 +61,36 @@ export default function Login() {
       <Navigation text="Login" />
 
       <main className="">
-        <form className="flex flex-col items-start w-full h-full gap-4 ml-10">
-          <label htmlFor="username">Enter Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500"
-          />
+        <form className="flex flex-col items-center  gap-4 mx-10 sm:mx-20">
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="username">Enter Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              className="p-2 border-b-2 w-auto bg-transparent border-gray-500"
+            />
+          </div>
 
-          <label htmlFor="password">Enter Password</label>
-          <input
-            type="text"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500"
-          />
+          <div className="flex flex-col gap-3 w-full">
+            <label htmlFor="password">Enter Password</label>
+            <input
+              type="text"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="p-2 border-b-2 w-auto bg-transparent border-gray-500"
+            />
+          </div>
 
-          <div className="flex flex-col items-center justify-center w-full gap-8 mt-10 align-middle pr-16">
+          <div className="flex flex-col items-center justify-center w-full gap-8 mt-10 align-middle">
             <button
               type="submit"
               onClick={handleSubmit}
-              className="bg-transparent border-2 border-red-500 p-2 px-4 rounded-lg hover:bg-red-600 hover:border-red-600 transition-all duration-500"
+              className="bg-red-500 border-2 text-black  border-black p-2 px-4 rounded-lg hover:bg-red-300 hover:border-black transition-all duration-500 hover:scale-105"
             >
               Login
             </button>
@@ -101,7 +101,7 @@ export default function Login() {
               New User?
             </Link>
             <Link
-              className="text-white border p-2 rounded-lg hover:bg-black/80 hover:text-blue-200 font-semibold transition-all duration-500 ease-in-out"
+              className="text-white border p-2 rounded-lg hover:bg-blue-900 hover:text-white font-semibold transition-all duration-500 ease-in-out"
               to="/admin/login"
             >
               Admin Login

@@ -6,10 +6,10 @@ import axios from "axios";
 const Profile = () => {
   const user = JSON.parse(sessionStorage.getItem("user")) || null;
   const navigate = useNavigate();
-  
+
   const [userData, setUserData] = useState({});
   const [isAdmin, setIsAdmin] = useState(false);
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       if (user) {
@@ -23,27 +23,27 @@ const Profile = () => {
     fetchUser();
   }, []);
 
+  console.log("userdata", userData);
+
   return (
     <div>
       <Navigation text="Profile" />
 
-      <main className="h-auto">
+      <main className="h-[90vh]">
         <div className="flex flex-col items-start px-10 gap-4 mt-10">
-          <div className="text-lg bg-white/10 p-4 rounded-xl flex flex-col items-start gap-4 w-full h-full">
-            <ul className="gap-4 flex flex-col items-start">
+          <div className="text-lg bg-gray-500/25 py-4 rounded-xl flex flex-col items-center gap-4 w-full h-full">
+            <ul className="gap-4 flex flex-col items-start overflow-auto">
               <li className="gap-4 flex flex-row ">
-                <span className="font-bold">Name: </span>
-                <span className="">{userData.name}</span>
+                <b>Name :</b>
+                {userData.name}
               </li>
               {isAdmin ? (
                 <li className="gap-4 flex flex-row ">
-                  <span className="font-bold">Email: </span>
-                  <span className="">{userData.email}</span>
+                  <b>Email :</b> {userData.email}
                 </li>
               ) : (
                 <li className="gap-4 flex flex-row ">
-                  <span className="font-bold">Username: </span>
-                  <span className="">{userData.username}</span>
+                  <b>Username:</b> {userData.username}
                 </li>
               )}
               <li className="gap-4 flex flex-row ">
@@ -52,24 +52,24 @@ const Profile = () => {
               </li>
               {isAdmin && (
                 <>
-                  <li className="gap-4 flex flex-row text-red-200 font-semibold px-20 py-4">
+                  <li className="gap-4 flex flex-row text-red-200 font-semibold py-4 w-full justify-center">
                     Assigned to :-
                   </li>
                   <li className="gap-4 flex flex-row ">
-                    <span className="font-bold">Area : </span>
-                    <span className="">{userData.area}</span>
+                    <b>Area :</b>
+                    {userData.area}
                   </li>
                   <li className="gap-4 flex flex-row ">
-                    <span className="font-bold">Centre : </span>
-                    <span className="">{userData.centre}</span>
+                    <b>Centre :</b>
+                    {userData.centre}
                   </li>{" "}
                   <li className="gap-4 flex flex-row ">
-                    <span className="font-bold">Division : </span>
-                    <span className="">{userData.division}</span>
+                    <b>Division :</b>
+                    {userData.division}
                   </li>{" "}
                   <li className="gap-4 flex flex-row ">
-                    <span className="font-bold">Centre PhoneNo. : </span>
-                    <span className="">{userData.centrePhone}</span>
+                    <b>Centre No. :</b>
+                    {userData.centrePhone}
                   </li>{" "}
                 </>
               )}

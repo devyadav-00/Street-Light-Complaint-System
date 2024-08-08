@@ -22,33 +22,40 @@ import ComplaintDetails from "./pages/ComplaintDetails";
 
 function App() {
   return (
-    // <>
-    // <Signature />
-    // </>
-    // set screen as mobile screen
-    <div className="w-[450px] h-[800px] bg-backGround bg-opacity-40 bg-cover bg-center rounded-3xl">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Loading />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <>
+      <div className="hidden md:flex text-xl h-screen justify-center items-center">
+        This website is only compatible for mobile phones.
+      </div>
+      <div className="w-full h-[100vh] md:hidden bg-backGround bg-cover bg-opacity-40 bg-no-repeat">
+        <div className="bg-black/30">
 
-          <Route path="/admin/register" element={<AdminRegister />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/complaint" element={<AdminComplaints />} />
-          
-          <Route path="/complaint/:isAdmin/:complaintId" element={<ComplaintDetails />} />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Loading />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          <Route path="/profile" element={<Profile />} />
+            <Route path="/admin/register" element={<AdminRegister />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/complaint" element={<AdminComplaints />} />
 
-          <Route path="/complaint" element={<Complaint />} />
-          <Route path="/newComplaint" element={<NewComplaint />} />
+            <Route
+              path="/complaint/:isAdmin/:complaintId"
+              element={<ComplaintDetails />}
+              />
 
-          <Route path="*" element={<Error />} />
-          <Route path="*/*" element={<Error />} />
-        </Routes>
-      </Router>
-    </div>
+            <Route path="/profile" element={<Profile />} />
+
+            <Route path="/complaint" element={<Complaint />} />
+            <Route path="/newComplaint" element={<NewComplaint />} />
+
+            <Route path="*" element={<Error />} />
+            <Route path="*/*" element={<Error />} />
+          </Routes>
+        </Router>
+              </div>
+      </div>
+    </>
   );
 }
 

@@ -14,7 +14,6 @@ const ComplaintImages = ({ complaint }) => {
   const [signatureData, setSignatureData] = useState(complaint.signature);
   const [imageData, setImageData] = useState();
 
-  // console.log("signatureData", signatureData);
 
   const importImage = async () => {
     const storageRef = ref(ImageStorage, complaint.picture);
@@ -28,9 +27,10 @@ const ComplaintImages = ({ complaint }) => {
   importImage();
 
   return (
-    <div className="px-4 flex flex-col gap-2">
+    <div className="px-14 flex flex-col gap-2">
       <span className="font-semibold">Image :</span>
       {imageData && <img src={imageData} alt="Image" />}
+      <br />
       <span className="font-semibold">Signature : </span>
       {signatureData && <img src={signatureData} alt="Image" />}
     </div>

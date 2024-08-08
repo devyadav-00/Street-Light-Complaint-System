@@ -28,22 +28,8 @@ function Signature({ onClose, setSignatureLink }) {
     setSignatureLink(signature?.toDataURL("image/png"));
 
     console.log("signatureData", signature?.toDataURL("image/png"));
-    
-    
 
     onClose();
-
-    // const storageRef = ref(ImageStorage, `signature/${v4()}`);
-    // uploadBytes(storageRef, signatureData, { contentType: 'image/png' })
-    //   .then((snapshot) => {
-    //     // console.log("Uploaded a blob or file!", snapshot);
-    //     setSignatureLink(snapshot.metadata.fullPath);
-    //     // console.log('image:', image);
-    //     onClose();
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error creating complaint:", error);
-    //   });
 
   };
 

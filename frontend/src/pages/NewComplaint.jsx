@@ -6,6 +6,7 @@ import Navigation from "../components/Navigation";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const types = [
   {
@@ -33,8 +34,6 @@ const types = [
     name: "STREETLIGHT",
   },
 ];
-
-const url = import.meta.env.VITE_BACKEND_URL;
 
 export default function NewComplaint() {
   const [signatureTab, setSignatureTab] = useState("");
@@ -87,7 +86,7 @@ export default function NewComplaint() {
     try {
       const response = await axios
         .post(
-          url + "api/v1/complaints/create",
+          "/api/v1/complaints/create",
           {
             username: user?.username || null,
             alternatePhone,
@@ -164,7 +163,8 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchArea = async () => {
       try {
-        const data = await axios.get(url + "api/v1/complaints/allarea/a");
+        const data = await axios.get("/api/v1/complaints/allarea/a");
+        // console.log('data', data);
         setAllAreas(data.data.data);
       } catch (error) {
         // alert("Error fetching areas");
@@ -176,7 +176,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchCentres = async () => {
       try {
-        const data = await axios.get(url + `api/v1/complaints/center/${area}`);
+        const data = await axios.get(`/api/v1/complaints/center/${area}`);
         setAllCentres(data.data.data);
       } catch (error) {
         // alert("Error fetching centers");
@@ -188,9 +188,7 @@ export default function NewComplaint() {
   useEffect(() => {
     const fetchDivisions = async () => {
       try {
-        const data = await axios.get(
-          `https://street-light-complaint-system-api.vercel.app/api/v1/complaints/division/${centre}`
-        );
+        const data = await axios.get(`/api/v1/complaints/division/${centre}`);
         // console.log("data", data.data);
         setAllDivision(data.data.data);
       } catch (error) {
@@ -219,194 +217,219 @@ export default function NewComplaint() {
       <Link to={"/"}>
         <Navigation text="Street Light Complaint" />
       </Link>
-      <main className="mx-2 h-[600px]">
-        <div className="text-2xl font-bold text-red-500 border p-4 mb-8 rounded-lg">
+      <main className="mx-2 overflow-y-scroll h-[90vh] ">
+        <div className="text-2xl font-bold text-center mx-10 text-red-500 border py-4 mb-8 rounded-lg">
           New Complaint Page
         </div>
 
-        <form className="flex flex-col items-start w-full h-full gap-4 ml-8 overflow-y-scroll no-scrollbar">
-          <label htmlFor="area" className="text-blue-500">
-            Area
-          </label>
-          <select
-            type="text"
-            id="area"
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          >
-            <option value="" className="bg-black/60">
-              Select Area
-            </option>
-            {allAreas?.map((ar, index) => (
-              <option value={ar._id} key={index} className="bg-black/90">
-                {ar._id}
+        <form className="flex flex-col items-start gap-4 mx-10 sm:mx-20 overflow-y-scroll no-scrollbar">
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="area" className="text-blue-500">
+              Area
+            </label>
+            <select
+              type="text"
+              id="area"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            >
+              <option value="" className="bg-black/60">
+                Select Area
               </option>
-            ))}
-          </select>
+              {allAreas?.map((ar, index) => (
+                <option value={ar._id} key={index} className="bg-black/90">
+                  {ar._id}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <label htmlFor="centre" className="text-blue-500">
-            Complaint Centre
-          </label>
-          <select
-            type="text"
-            id="centre"
-            value={centre}
-            onChange={(e) => setCentre(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          >
-            <option value="" className="bg-black/60">
-              Select Centre
-            </option>
-
-            {allCentres.map((cen) => (
-              <option value={cen._id} className="bg-black/90">
-                {cen._id}
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="centre" className="text-blue-500">
+              Complaint Centre
+            </label>
+            <select
+              type="text"
+              id="centre"
+              value={centre}
+              onChange={(e) => setCentre(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            >
+              <option value="" className="bg-black/60">
+                Select Centre
               </option>
-            ))}
-          </select>
-          <label htmlFor="category" className="text-blue-500">
-            Complaint Category
-          </label>
-          <input
-            type="text"
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
 
-          <label htmlFor="fault" className="text-blue-500">
-            Type of Fault
-          </label>
-          <select
-            type="text"
-            id="fault"
-            value={fault}
-            onChange={(e) => setFault(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          >
-            <option value="" className="bg-black/60">
-              Select Fault Type
-            </option>
-            {types.map((type) => (
-              <option value={type.name} className="bg-black/90">
-                {type.name}
+              {allCentres.map((cen) => (
+                <option value={cen._id} className="bg-black/90">
+                  {cen._id}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="category" className="text-blue-500">
+              Complaint Category
+            </label>
+            <input
+              type="text"
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="fault" className="text-blue-500">
+              Type of Fault
+            </label>
+            <select
+              type="text"
+              id="fault"
+              value={fault}
+              onChange={(e) => setFault(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            >
+              <option value="" className="bg-black/60">
+                Select Fault Type
               </option>
-            ))}
-          </select>
+              {types.map((type) => (
+                <option value={type.name} className="bg-black/90">
+                  {type.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <label htmlFor="name" className="text-blue-500">
-            Caller Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="name" className="text-blue-500">
+              Caller Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <label htmlFor="address" className="text-blue-500">
-            Caller Address
-          </label>
-          <input
-            type="text"
-            id="address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="address" className="text-blue-500">
+              Caller Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <label htmlFor="division" className="text-blue-500">
-            Division
-          </label>
-          <select
-            type="text"
-            id="division"
-            value={division}
-            onChange={(e) => setDivision(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          >
-            <option value="" className="bg-black/60">
-              Select Division
-            </option>
-            {allDivision.map((div) => (
-              <option value={div._id} className="bg-black/90">
-                {div._id}
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="division" className="text-blue-500">
+              Division
+            </label>
+            <select
+              type="text"
+              id="division"
+              value={division}
+              onChange={(e) => setDivision(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            >
+              <option value="" className="bg-black/60">
+                Select Division
               </option>
-            ))}
-          </select>
+              {allDivision.map((div) => (
+                <option value={div._id} className="bg-black/90">
+                  {div._id}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <label htmlFor="centrePhone" className="text-blue-500">
-            Complaint Center Phone
-          </label>
-          <input
-            type="text"
-            id="centrePhone"
-            disabled={true}
-            value={centrePhone}
-            onChange={(e) => setCentrePhone(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="centrePhone" className="text-blue-500">
+              Complaint Center Phone
+            </label>
+            <input
+              type="text"
+              id="centrePhone"
+              disabled={true}
+              value={centrePhone}
+              onChange={(e) => setCentrePhone(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <label htmlFor="callerPhone" className="text-blue-500">
-            Caller Phone
-          </label>
-          <input
-            type="text"
-            id="callerPhone"
-            value={callerPhone}
-            onChange={(e) => setCallerPhone(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="callerPhone" className="text-blue-500">
+              Caller Phone
+            </label>
+            <input
+              type="text"
+              id="callerPhone"
+              value={callerPhone}
+              onChange={(e) => setCallerPhone(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <label htmlFor="alternatePhone" className="text-blue-500">
-            Alternate Phone
-          </label>
-          <input
-            type="text"
-            id="alternatePhone"
-            value={alternatePhone}
-            onChange={(e) => setAlternatePhone(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="alternatePhone" className="text-blue-500">
+              Alternate Phone
+            </label>
+            <input
+              type="text"
+              id="alternatePhone"
+              value={alternatePhone}
+              onChange={(e) => setAlternatePhone(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <label htmlFor="remarks" className="text-blue-500">
-            Remarks
-          </label>
-          <input
-            type="text"
-            id="remarks"
-            value={remarks}
-            onChange={(e) => setRemarks(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="remarks" className="text-blue-500">
+              Remarks
+            </label>
+            <input
+              type="text"
+              id="remarks"
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <label htmlFor="location" className="text-blue-500">
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className="p-2 border-b-2 w-[350px] bg-transparent border-gray-500 text-lg"
-            required
-          />
+          <div className="flex flex-col gap-3 w-full ">
+            <label htmlFor="location" className="text-blue-500">
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="p-2 border-b-2 w-full bg-transparent border-gray-500 text-lg"
+              required
+            />
+          </div>
 
-          <div className="grid grid-cols-2 pb-10 items-center justify-center w-full gap-8 mt-10 align-middle pr-16">
+          <div className="grid grid-cols-2 pb-10 items-center justify-center w-full gap-8 mt-10 align-middle text-center px-16">
             {/* buttons for camera, signature, register and reset */}
 
             <div className="flex relative border-2 h-full border-red-500 rounded-lg hover:bg-red-500 w-full transition-all duration-500">
