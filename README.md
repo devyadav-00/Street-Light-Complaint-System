@@ -69,27 +69,4 @@ You can view the live preview of the project [here](https://slcms.vercel.app/).
     http://localhost:5173/
     ```
     
-## ✍ About Developer
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top">
-        <img src="https://github.com/satwikgupta.png" width="120px;" alt="Satwik Gupta"/>
-        <br />
-        <b>Satwik Gupta</b>
-      </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <a href="https://github.com/satwikgupta">
-            <img src="https://img.shields.io/badge/GitHub-100000.svg?style=for-the-badge&logo=github&logoColor=white"/>
-        </a>
-        <br/>
-        <a href="https://linkedin.com/in/satwikgupta18">
-            <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>
-        </a>
-        </td>
-    </tr>
-  </tbody>
-</table>
